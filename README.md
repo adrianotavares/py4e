@@ -1,4 +1,4 @@
-### py4e course
+### PY4E 
 
 - [Free materials](https://www.py4e.com)
 
