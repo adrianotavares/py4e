@@ -1,4 +1,4 @@
-### PY4E 
+### PY4E - Coursera: Python for Everybody Specialization
 
 - [Free materials](https://www.py4e.com)
 
