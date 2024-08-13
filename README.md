@@ -1,8 +1,7 @@
-### py4e
+### py4e course
 
-- [Python for Everybody](https://www.py4e.com)
+- [Free materials](https://www.py4e.com)
 
 ## Book
 
-- [EN](https://www.py4e.com/book)
-- [PT](book/Python-para-Todos.pdf)
+- [Python para Todos](book/Python-para-Todos.pdf)
