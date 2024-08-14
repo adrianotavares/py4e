@@ -223,6 +223,11 @@
 # y = re.findall('@([^ ]*)', lin)  
 # print(y)
 
+import re
+lin = '<p>Please click <a href="http://www.dr-chuck.com">here</a></p>'
+y = re.findall('href="(.+)"', lin)  
+print(y)
+
 # import re
 # lin = 'From: stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008'
 # y = re.findall(r'\S+@\S+', lin)  
@@ -237,15 +242,94 @@
 # y = re.findall('^F.+:', x)
 # print(y)
 
-# Networking - HTTP - Socket 
-import socket
-mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-mysock.connect(('data.pr4e.org', 80))
-cmd = 'GET http://data.pr4e.org/intro-short.txt HTTP/1.0\r\n\r\n'.encode()
-mysock.send(cmd)
-while True :
-    data = mysock.recv(512)
-    if len(data) < 1 :
-        break
-    print(data.decode())
-mysock.close()
+# # Networking - HTTP - Socket 
+# import socket
+# mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# mysock.connect(('data.pr4e.org', 80))
+# cmd = 'GET http://data.pr4e.org/intro-short.txt HTTP/1.0\r\n\r\n'.encode()
+# mysock.send(cmd)
+# while True :
+#     data = mysock.recv(512)
+#     if len(data) < 1 :
+#         break
+#     print(data.decode())
+# mysock.close()
+
+# Characters, ASCII and unicode
+
+# ASCII (0 to 255)
+# print(ord('H'))
+# print(ord('e'))
+# print(ord('\n'))
+# print(chr(72))
+# print(chr(101))
+# print(chr(10))
+
+# UNICODE (0 to 4 billion)
+# UTF-8 (8-bit variable length encoding)
+# x = b'abc'
+# print(type(x))
+# x = 'abc'
+# print(type(x))
+# x = u'abc'
+# print(type(x))
+# x = u'我'
+# print(x)
+
+# encode and decode
+# import socket
+# mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# mysock.connect(('data.pr4e.org', 80))
+# cmd = 'GET http://data.pr4e.org/intro-short.txt HTTP/1.0\r\n\r\n'.encode() # unicode to bytes
+# mysock.send(cmd)
+
+# while True :
+#     data = mysock.recv(512) # bytes
+#     if len(data) < 1 :
+#         break
+#     print(data.decode()) # bytes to unicode
+# mysock.close()
+
+# urllib - higher level
+# import urllib.request
+# fhand = urllib.request.urlopen('http://data.pr4e.org/intro-short.txt')
+# for line in fhand :
+#     print(line.decode().strip())
+    
+# urlwords.py
+# counting words in a file
+# import urllib.request
+# fhand = urllib.request.urlopen('http://data.pr4e.org/romeo.txt')
+# counts = dict()
+# for line in fhand :
+#     words = line.decode().split()
+#     for word in words :
+#         counts[word] = counts.get(word, 0) + 1
+# print(counts)
+
+# urllib2.py
+# first  lines of code @ Google
+# import urllib.request
+# fhand = urllib.request.urlopen('http://www.dr-chuck.com/page1.htm')
+# for line in fhand :
+#     print(line.decode().strip())
+    
+# BeautifulSoup Installation
+# to run this, you need to install BeautifulSoup
+# https://pypi.python.org/pypi/beautifulsoup4
+# unzip it in the same directory as this file
+
+import urllib.request, urllib.parse, urllib.error
+from bs4 import BeautifulSoup
+
+url = input('Enter - ')
+html = urllib.request.urlopen(url).read()
+soup = BeautifulSoup(html, 'html.parser')
+
+# Retrieve all of the anchor tags
+tags = soup('a')
+for tag in tags :
+    print(tag.get('href', None))
+    
+    
+
