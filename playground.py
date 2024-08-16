@@ -223,10 +223,10 @@
 # y = re.findall('@([^ ]*)', lin)  
 # print(y)
 
-import re
-lin = '<p>Please click <a href="http://www.dr-chuck.com">here</a></p>'
-y = re.findall('href="(.+)"', lin)  
-print(y)
+# import re
+# lin = '<p>Please click <a href="http://www.dr-chuck.com">here</a></p>'
+# y = re.findall('href="(.+)"', lin)  
+# print(y)
 
 # import re
 # lin = 'From: stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008'
@@ -319,17 +319,149 @@ print(y)
 # https://pypi.python.org/pypi/beautifulsoup4
 # unzip it in the same directory as this file
 
-import urllib.request, urllib.parse, urllib.error
-from bs4 import BeautifulSoup
+# import urllib.request, urllib.parse, urllib.error
+# from bs4 import BeautifulSoup
 
-url = input('Enter - ')
-html = urllib.request.urlopen(url).read()
-soup = BeautifulSoup(html, 'html.parser')
+# url = input('Enter - ')
+# html = urllib.request.urlopen(url).read()
+# soup = BeautifulSoup(html, 'html.parser')
 
-# Retrieve all of the anchor tags
-tags = soup('a')
-for tag in tags :
-    print(tag.get('href', None))
+# # Retrieve all of the anchor tags
+# tags = soup('a')
+# for tag in tags :
+#     print(tag.get('href', None))
     
-    
+# import xml.etree.ElementTree as ET
+# data = '''
+# <person>
+#     <name>Chuck</name>
+#     <phone type="intl">
+#         +1 734 303 4456
+#     </phone>
+#     <email hide="yes"/>
+# </person>'''
 
+# tree = ET.fromstring(data)
+# print('Name:', tree.find('name').text)
+# print('Phone', tree.find('phone').text)
+# print('Attr:', tree.find('phone').get('type'))
+# print('Attr:', tree.find('email').get('hide'))
+
+# XML - eXtensible Markup Language
+# import xml.etree.ElementTree as ET
+# input = '''
+# <stuff>
+#     <users>
+#         <user x="2">
+#             <id>001</id>
+#             <name>Chuck</name>
+#         </user>
+#         <user x="7">
+#             <id>009</id>
+#             <name>Brent</name>
+#         </user>
+#     </users>
+# </stuff>
+# '''
+# stuff = ET.fromstring(input)
+# lst = stuff.findall('users/user')
+# print('User count:', len(lst))
+# for item in lst :
+#     print('Name', item.find('name').text)
+#     print('Id', item.find('id').text)
+#     print('Attribute', item.get('x'))
+    
+# JSON - JavaScript Object Notation
+# import json
+# data = '''
+# {
+#     "name" : "Chuck",
+#     "phone" : {
+#         "type" : "intl",
+#         "number" : "+1 734 303 4456"
+#     },
+#     "email" : {
+#         "hide" : "yes"
+#     }
+# }'''
+# info = json.loads(data)
+# print('Name:', info["name"])
+# print('Phone:', info["phone"]["number"])
+# print('Hide:', info["email"]["hide"])
+
+# list of dictionaries 
+# import json 
+# input = '''
+# [
+#     { "id" : "001",
+#       "x" : "2",
+#       "name" : "Chuck"
+#     } ,
+#     { "id" : "009",
+#       "x" : "7",
+#       "name" : "Chuck"
+#     }
+# ]'''
+# info = json.loads(input)
+# print('User count:', len(info))
+# for item in info :
+#     print('Name', item['name'])
+#     print('Id', item['id'])
+#     print('Attribute', item['x'])
+
+# import json 
+# input = '''
+# [ "Glenn", "Sally", "Jen" ]
+# '''
+# info = json.loads(input)
+# print('Type:', type(info))
+
+# GeoJSON
+# import urllib.request, urllib.parse
+# import json, ssl
+
+# # Heavily rate limited proxy of https://www.geoapify.com/ api
+# serviceurl = 'https://py4e-data.dr-chuck.net/opengeo?'
+
+# # Ignore SSL certificate errors
+# ctx = ssl.create_default_context()
+# ctx.check_hostname = False
+# ctx.verify_mode = ssl.CERT_NONE
+
+# while True:
+#     address = input('Enter location: ')
+#     if len(address) < 1: break
+
+#     address = address.strip()
+#     parms = dict()
+#     parms['q'] = address
+
+#     url = serviceurl + urllib.parse.urlencode(parms)
+
+#     print('Retrieving', url)
+#     uh = urllib.request.urlopen(url, context=ctx)
+#     data = uh.read().decode()
+#     print('Retrieved', len(data), 'characters', data[:20].replace('\n', ' '))
+
+#     try:
+#         js = json.loads(data)
+#     except:
+#         js = None
+
+#     if not js or 'features' not in js:
+#         print('==== Download error ===')
+#         print(data)
+#         break
+
+#     if len(js['features']) == 0:
+#         print('==== Object not found ====')
+#         print(data)
+#         break
+
+#     # print(json.dumps(js, indent=4))
+
+#     lat = js['features'][0]['properties']['lat']
+#     lon = js['features'][0]['properties']['lon']
+#     print('lat', lat, 'lon', lon)
+#     location = js['features'][0]['properties']['formatted']
+#     print(location)
