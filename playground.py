@@ -465,3 +465,166 @@
 #     print('lat', lat, 'lon', lon)
 #     location = js['features'][0]['properties']['formatted']
 #     print(location)
+
+
+# x = b'abc'
+# print(type(x))
+# # 3 japanes characters
+# x = u'我你他'
+# print(x)
+
+# print(ord(x[0]))
+# print(chr(25105))
+# print(chr(20320))
+# print(chr(20013))
+
+# encode and decode
+# import socket
+# mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# mysock.connect(('data.pr4e.org', 80))
+# cmd = 'GET http://data.pr4e.org/intro-short.txt HTTP/1.0\r\n\r\n'.encode() # unicode to bytes
+# mysock.send(cmd)
+
+# while True :
+#     data = mysock.recv(512) # bytes
+#     if len(data) < 1 :
+#         break
+#     print(data.decode()) # bytes to unicode
+# mysock.close()
+
+# print(chr(108))
+# print(chr(105))
+# print(chr(115))
+# print(chr(116))
+
+# Object Oriented Programming in Python
+# class PartyAnimal:
+#     def __init__(self) :
+#         print('I am constructed')
+#         self.x = 0
+    
+#     def party(self) :
+#         self.x = self.x + 1
+#         print('So far', self.x)
+        
+#     def __del__(self) :
+#         print('I am destructed', self.x)
+        
+# an = PartyAnimal()
+# an.party()
+# an.party()
+# an.party()
+# PartyAnimal.party(an)
+# an.party()
+
+# print ("Type ", type(an))   
+# print("Dir ", dir(an))
+# print("Type ", type(an.x))
+# print("Type ", type(an.party))
+
+# an = 42
+# print('an contains', an)
+# print ("Type ", type(an)) 
+
+# Object Oriented Programming in Python
+# class PartyAnimal:
+#     def __init__(self, z) :
+#         self.x = 0
+#         self.name = z
+#         print(self.name,'constructed')     
+#     def party(self) :
+#         self.x = self.x + 1
+#         print(self.name,'party count ', self.x)
+    
+# s = PartyAnimal('Sally')
+# s.party()
+# j = PartyAnimal('Jim')
+# j.party()
+# s.party()
+
+# inhreritance
+# class PartyAnimal:
+#     def __init__(self, z) :
+#         self.x = 0
+#         self.name = z
+#         print(self.name,'constructed')
+        
+    
+#     def party(self) :
+#         self.x = self.x + 1
+#         print(self.name,'party count ', self.x)
+        
+# class FootballFan(PartyAnimal):
+    
+#     def __init__(self, nam) :
+#         super().__init__(nam)
+#         self.points = 0
+    
+#     def touchdown(self) :
+#         self.points = self.points + 7
+#         self.party()
+#         print(self.name, 'points', self.points)
+
+# s = PartyAnimal('Sally')
+# s.party()        
+# j = FootballFan('Jim')
+# j.party()
+# j.touchdown()
+
+# Databases - https://sqlitebrowser.org/
+
+# CREATE TABLE "Ages" (
+# 	"name"	TEXT,
+# 	"age"	INTEGER
+# );
+
+# DELETE FROM Ages;
+# INSERT INTO Ages (name, age) VALUES ('Gavin', 28);
+# INSERT INTO Ages (name, age) VALUES ('Ellise', 31);
+# INSERT INTO Ages (name, age) VALUES ('Carah', 35);
+# INSERT INTO Ages (name, age) VALUES ('Samy', 28);
+# INSERT INTO Ages (name, age) VALUES ('Kasey', 32);
+
+# SELECT hex(name || age) AS X FROM Ages ORDER BY X
+
+# SELECT hex(name || age) AS X FROM Ages ORDER BY X
+
+# 43617261683335
+# 456C6C6973653331
+# 476176696E3238
+# 4B617365793332
+# 53616D793238
+
+import sqlite3
+
+conn = sqlite3.connect('./db/emaildb.sqlite')
+cur = conn.cursor()
+
+cur.execute('DROP TABLE IF EXISTS Counts')
+
+cur.execute('''
+CREATE TABLE Counts (email TEXT, count INTEGER)''')
+
+fname = input('Enter file name: ')
+if len(fname) < 1 :
+    fname = 'mbox-short.txt'
+fh = open(fname)
+for line in fh :
+    if not line.startswith('From: ') :
+        continue
+    pieces = line.split()
+    email = pieces[1]
+    cur.execute('SELECT count FROM Counts WHERE email = ?', (email,))
+    row = cur.fetchone()
+    if row is None :
+        cur.execute('INSERT INTO Counts (email, count) VALUES (?, 1)', (email,))
+    else :
+        cur.execute('UPDATE Counts SET count = count + 1 WHERE email = ?', (email,))
+    conn.commit()
+    
+sqlstr = 'SELECT email, count FROM Counts ORDER BY count DESC LIMIT 10'
+
+for row in cur.execute(sqlstr) :
+    print(str(row[0]), row[1])
+    
+     
